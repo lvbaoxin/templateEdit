@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑</title>
+</head>
+<style>
+    body {
+        margin: 0px;
+    }
+
+    .addDialogueBottom {
+        height: 100%;
+        background: #fff;
+        overflow-y: auto;
+    }
+
+    .detailsAllBtnBar {
+        height: 59px;
+        background: rgba(252, 252, 252, 1);
+        box-shadow: 0px 1px 0px 0px rgba(238, 238, 238, 1);
+        display: flex;
+        align-content: center;
+        align-items: center;
+        padding: 0px 30px;
+    }
+
+    .btnGrouping {
+        border-right: 1px dashed rgba(238, 238, 238, 1);
+        padding: 0px 10px;
+    }
+
+    .btnGrouping:first-child {
+        padding: 0px 10px 0 0;
+    }
+
+    .detailsAddBtn {
+        width: 74px;
+        height: 28px;
+        border: 1px solid rgba(0, 155, 219, 1);
+        border-radius: 3px;
+        text-align: left;
+        padding-left: 30px;
+        color: #009bdb;
+        background: url(../img/dialogue_add_h.png) no-repeat left center;
+        background-position: 10px;
+        outline: none;
+    }
+
+    .detailsUpBtn,
+    .detailsDownBtn,
+    .detailsEditBtn,
+    .detailsDelBtn,
+    .detailsCopyBtn,
+    .detailsStickBtn {
+        width: 74px;
+        height: 28px;
+        text-align: left;
+        padding-left: 30px;
+        color: #999999;
+        background: url(../img/dialogue_up_n.png) no-repeat left center rgba(240, 240, 238, 1);
+        background-position: 10px;
+        outline: none;
+        border: 1px solid rgba(227, 228, 233, 1);
+        border-radius: 3px;
+        cursor: not-allowed !important;
+    }
+
+    .detailsUpBtnState,
+    .detailsDownBtnState,
+    .detailsEditBtnState,
+    .detailsDelBtnState,
+    .detailsCopyBtnState,
+    .detailsStickBtnState {
+        width: 74px;
+        height: 28px;
+        text-align: left;
+        padding-left: 30px;
+        border: 1px solid rgba(0, 155, 219, 1);
+        color: rgba(0, 155, 219, 1);
+        background: url(../img/dialogue_up_h.png) no-repeat left center #fff;
+        background-position: 10px;
+        outline: none;
+        border-radius: 3px;
+        cursor: pointer !important;
+    }
+
+    .detailsDownBtn {
+        background: url(../img/dialogue_down_n.png) no-repeat left center rgba(240, 240, 238, 1);
+        background-position: 10px;
+        margin-left: 5px;
+    }
+
+    .detailsDownBtnState {
+        background: url(../img/dialogue_down_h.png) no-repeat left center #fff;
+        background-position: 10px;
+        margin-left: 5px;
+    }
+
+    .detailsEditBtn {
+        background: url(../img/dialogue_edit_n.png) no-repeat left center rgba(240, 240, 238, 1);
+        background-position: 10px;
+    }
+
+    .detailsEditBtnState {
+        background: url(../img/dialogue_edit_h.png) no-repeat left center #fff;
+        background-position: 10px;
+
+    }
+
+    .detailsDelBtn {
+        background: url(../img/dialogue_del_n.png) no-repeat left center rgba(240, 240, 238, 1);
+        background-position: 10px;
+        margin-left: 5px;
+    }
+
+    .detailsDelBtnState {
+        background: url(../img/dialogue_del_h.png) no-repeat left center #fff;
+        background-position: 10px;
+        margin-left: 5px;
+    }
+
+    .detailsCopyBtn {
+        background: url(../img/dialogue_copy_n.png) no-repeat left center rgba(240, 240, 238, 1);
+        background-position: 10px;
+    }
+
+    .detailsCopyBtnState {
+        background: url(../img/dialogue_copy_h.png) no-repeat left center #fff;
+        background-position: 10px;
+    }
+
+    .detailsStickBtn {
+        background: url(../img/dialogue_stick_n.png) no-repeat left center rgba(240, 240, 238, 1);
+        background-position: 10px;
+        margin-left: 5px;
+    }
+
+    .detailsStickBtnState {
+        background: url(../img/dialogue_stick_h.png) no-repeat left center #fff;
+        background-position: 10px;
+        margin-left: 5px;
+    }
+
+    .templateEditBar {
+        padding: 30px;
+    }
+
+    .startAddTemplate {
+        border-radius: 4px;
+        width: 116px;
+        height: 30px;
+        font-size: 14px;
+        text-align: center;
+        position: relative;
+        margin: 0px auto 28px;
+        list-style: none;
+        border: 1px solid #009bdb;
+        line-height: 30px;
+        background: #009bdb;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .startAddTemplate::before {
+        content: "";
+        position: absolute;
+        width: 12px;
+        height: 24px;
+        background: url(../img/templateList_after.png) no-repeat;
+        top: 44px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .templateEditList {
+        padding: 0px !important;
+        margin: 0px auto;
+        width: 116px;
+    }
+
+    .templateEditList li {
+        width: 116px;
+        height: 30px;
+        background: rgba(255, 255, 255, 1);
+        font-size: 14px;
+        color: #009bdb;
+        text-align: center;
+        position: relative;
+        margin-bottom: 28px;
+        list-style: none;
+    }
+
+    .templateEditList li button {
+        background: transparent;
+        width: 116px;
+        height: 30px;
+        border: 1px solid #009bdb;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: block;
+        outline: none;
+        border-radius: 4px;
+        color: #009bdb;
+    }
+
+    .templateEditList li::before {
+        content: "";
+        position: absolute;
+        width: 12px;
+        height: 24px;
+        background: url(../img/templateList_after.png) no-repeat;
+        top: 44px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .templateEditList li:last-child::before {
+        background: none;
+    }
+
+    .btnActiveBg {
+        background: rgba(220, 245, 255, 1) !important;
+        color: #009BDB !important;
+    }
+</style>
+
+<body>
+    <div class="addDialogueBottom">
+        <!--模板库详情显示按钮-->
+        <div class="detailsAllBtnBar" style="display:flex">
+            <!--none-->
+            <div class="btnGrouping">
+                <button class="detailsAddBtn">新建</button>
+            </div>
+            <div class="btnGrouping">
+                <button disabled class="detailsUpBtn">上移</button>
+                <button disabled class="detailsDownBtn">下移</button>
+            </div>
+            <div class="btnGrouping">
+                <button disabled class="detailsEditBtn">编辑</button>
+                <button disabled class="detailsDelBtn">删除</button>
+            </div>
+            <div class="btnGrouping">
+                <button disabled class="detailsCopyBtn">粘贴</button>
+                <button disabled class="detailsStickBtn">复制</button>
+            </div>
+        </div>
+        <!--添加多轮对话编辑详情-->
+        <div class="templateEditBar" style="display:block">
+            <!--none-->
+            <div class="startAddTemplate">开始</div>
+            <ul class="templateEditList">
+                <li><button>询问咨询问题1</button></li>
+                <li><button>是否是患者本2</button></li>
+                <li><button>症状询问3</button></li>
+                <li><button>症状出现时间4</button></li>
+                <li><button>年龄性别询问5</button></li>
+                <li><button>是否就诊6</button></li>
+                <li><button>套电话术7</button></li>
+
+            </ul>
+        </div>
+    </div>
+
+</body>
+<script src="js/jquery.min.js"></script>
+<script>
+    $(function () {
+        //点击列表
+        $(".templateEditList li").click(function () {
+            var that = $(this)
+            that.addClass("btnActiveBg").siblings().removeClass("btnActiveBg")
+            var index = $(".templateEditList li").index(this);
+            if (index == 0) {
+                $(".detailsUpBtnState").removeClass("detailsUpBtnState").addClass("detailsUpBtn").attr("disabled", true)
+                $(".detailsDownBtn").removeClass("detailsDownBtn").addClass("detailsDownBtnState").attr("disabled", false)
+                $(".detailsEditBtn").removeClass("detailsEditBtn").addClass("detailsEditBtnState").attr("disabled", false)
+                $(".detailsDelBtn").removeClass("detailsDelBtn").addClass("detailsDelBtnState").attr("disabled", false)
+                $(".detailsStickBtn").removeClass("detailsStickBtn").addClass("detailsStickBtnState").attr("disabled", false)
+            }
+            else if (index == $('.templateEditList li').length - 1) {
+                $(".detailsUpBtn").removeClass("detailsUpBtn").addClass("detailsUpBtnState").attr("disabled", false)
+                $(".detailsDownBtnState").removeClass("detailsDownBtnState").addClass("detailsDownBtn").attr("disabled", true)
+                $(".detailsEditBtn").removeClass("detailsEditBtn").addClass("detailsEditBtnState").attr("disabled", false)
+                $(".detailsDelBtn").removeClass("detailsDelBtn").addClass("detailsDelBtnState").attr("disabled", false)
+                $(".detailsStickBtn").removeClass("detailsStickBtn").addClass("detailsStickBtnState").attr("disabled", false)
+            }
+            else {
+                $(".detailsUpBtn").removeClass("detailsUpBtn").addClass("detailsUpBtnState").attr("disabled", false)
+                $(".detailsDownBtn").removeClass("detailsDownBtn").addClass("detailsDownBtnState").attr("disabled", false)
+                $(".detailsEditBtn").removeClass("detailsEditBtn").addClass("detailsEditBtnState").attr("disabled", false)
+                $(".detailsDelBtn").removeClass("detailsDelBtn").addClass("detailsDelBtnState").attr("disabled", false)
+                $(".detailsStickBtn").removeClass("detailsStickBtn").addClass("detailsStickBtnState").attr("disabled", false)
+            }
+
+        });
+        //上移
+        $("body").on("click", ".detailsUpBtnState", function () {
+            $(".templateEditList li").each(function (i, v) {
+                if ($(v).hasClass("btnActiveBg")) {
+                    if (i == 1) {
+                        $(".detailsUpBtnState").removeClass("detailsUpBtnState").addClass("detailsUpBtn").attr("disabled", true)
+                        $(".detailsDownBtn").removeClass("detailsDownBtn").addClass("detailsDownBtnState").attr("disabled", false)
+                    }
+                    else if (i > 1) {
+                        $(".detailsUpBtn").removeClass("detailsUpBtn").addClass("detailsUpBtnState").attr("disabled", false)
+                        $(".detailsDownBtn").removeClass("detailsDownBtn").addClass("detailsDownBtnState").attr("disabled", false)
+                    }
+                    $(this).prev().before($(this))
+                }
+            });
+        });
+        //下移
+        $("body").on("click", ".detailsDownBtnState", function () {
+            $(".templateEditList li").each(function (i, v) {
+                if ($(v).hasClass("btnActiveBg")) {
+                    if (i == $(".templateEditList li").length - 2) {
+                        $(".detailsDownBtnState").removeClass("detailsDownBtnState").addClass("detailsDownBtn").attr("disabled", true)
+                        $(".detailsUpBtn").removeClass("detailsUpBtn").addClass("detailsUpBtnState").attr("disabled", false)
+                    }
+                    else if (i > -3) {
+                        $(".detailsUpBtn").removeClass("detailsUpBtn").addClass("detailsUpBtnState").attr("disabled", false)
+                    }
+                    $(this).next().after($(this))
+                }
+            });
+        });
+        //编辑
+        $("body").on("click", ".detailsEditBtnState", function () {
+            $(".addNodeDiv ,.iframe_cover").show()
+        });
+        //删除
+        $("body").on("click", ".detailsDelBtnState", function () {
+            $(".templateEditList li").each(function (i, v) {
+                if ($(v).hasClass("btnActiveBg")) {
+                    v.remove()
+                    $(".detailsUpBtnState").removeClass("detailsUpBtnState").addClass("detailsUpBtn").attr("disabled", true)
+                    $(".detailsDownBtnState").removeClass("detailsDownBtnState").addClass("detailsDownBtn").attr("disabled", true)
+                    $(".detailsEditBtnState").removeClass("detailsEditBtnState").addClass("detailsEditBtn").attr("disabled", true)
+                    $(".detailsDelBtnState").removeClass("detailsDelBtnState").addClass("detailsDelBtn").attr("disabled", true)
+                    $(".detailsStickBtnState").removeClass("detailsStickBtnState").addClass("detailsStickBtn").attr("disabled", true)
+                    $(".detailsCopyBtnState").removeClass("detailsCopyBtnState").addClass("detailsCopyBtn").attr("disabled", true)
+                }
+            });
+        });
+        //复制
+        $("body").on("click", ".detailsStickBtnState", function () {
+            $(".detailsCopyBtn").removeClass("detailsCopyBtn").addClass("detailsCopyBtnState").attr("disabled", false)
+
+        });
+        //粘贴
+        $("body").on("click", ".detailsCopyBtnState", function () {
+            $(".templateEditList li").each(function (i, v) {
+                if ($(v).hasClass("btnActiveBg")) {
+                    $(v).clone(true).removeClass("btnActiveBg").appendTo($(v).parent());
+                }
+            });
+        });
+
+    })
+</script>
+
+</html>
